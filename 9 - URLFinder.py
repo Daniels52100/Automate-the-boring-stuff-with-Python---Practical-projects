@@ -1,6 +1,7 @@
 #! python3
 
 # This program finds URLs in clipboard text and sends a list of them back to the clipboard.
+# To execute it from cmd, you must download "9 - URLFinder.bat" and follow instructions.
 
 import re, pyperclip
 text = str(pyperclip.paste())
