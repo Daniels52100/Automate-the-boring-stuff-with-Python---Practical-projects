@@ -1,5 +1,7 @@
 #! python3
 # This program saves passwords and sends to the clipboard the desired password when executed.
+# To open it, we type "5 - PasswordLocker" <argument> on cmd prompt.
+# "5 - PasswordLocker.bat" must be downloaded along with PasswordLocker.py so that the command above works. 
 
 PASSWORDS = {'email': 'F7minlBDDuvMJuxESSKHFhTxFtjVB6',
              'blog': 'VmALvQyKAxiVH5G8v01if1MLZF3sdt',
