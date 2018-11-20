@@ -17,7 +17,7 @@ cardNumberRegex = re.compile(r'''(
 )''',re.VERBOSE)
 
 newText = cvcRegex.sub(r'\2\6***',text)
-newText = cardNumberRegex.sub(r'****-****-****-\3', text)
+newText = cardNumberRegex.sub(r'****-****-****-\3', newText)
 if newText != text:
     pyperclip.copy(text)
     print('Omission complete. New text copied to clipboard.')
