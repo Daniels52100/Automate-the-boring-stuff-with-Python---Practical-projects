@@ -1,5 +1,6 @@
 #! python3
 # This program omits Brazillian credit card codes from text on clipboard.
+# To execute it from cmd, you must download "10 - SensitiveInfo.bat" and follow the instructions.
 
 import re, pyperclip
 text = pyperclip.paste()
