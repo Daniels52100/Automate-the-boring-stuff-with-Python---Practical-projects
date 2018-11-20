@@ -16,7 +16,10 @@ cardNumberRegex = re.compile(r'''(
     (\d{4}) # separando o último trecho dos demais para mostrar após a substituição.
 )''',re.VERBOSE)
 
-text = cvcRegex.sub(r'\2\6***',text)
-text = cardNumberRegex.sub(r'****-****-****-\3', text)
-pyperclip.copy(text)
-print('Omission complete. New text copied to clipboard.')
+newText = cvcRegex.sub(r'\2\6***',text)
+newText = cardNumberRegex.sub(r'****-****-****-\3', text)
+if newText != text:
+    pyperclip.copy(text)
+    print('Omission complete. New text copied to clipboard.')
+else:
+    print('No sensitive informations were found.')
