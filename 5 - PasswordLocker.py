@@ -15,13 +15,16 @@ if len(sys.argv) < 2:
 if sys.argv[1] == 'new':
     print('Insert account name (Or nothing to quit):')
     newAccount = input()
-    print('Insert the password. (I won\'t look, I promise!)')
-    newPassword = input()
-    PASSWORDS[newAccount] = newPassword
-    print('Password successfully registered.')
-    # Because we didn't use actual files in this program, the new password won't be saved.
-    # We would need a file containing the PASSWORDS dictionary to save it, and open the file in the program.
-    # The objective with this feature is to test the argv's logic.
+    if newAccount == '':
+        sys.exit()
+    else:
+        print('Insert the password. (I won\'t look, I promise!)')
+        newPassword = input()
+        PASSWORDS[newAccount] = newPassword
+        print('Password successfully registered.')
+        # Because we didn't use actual files in this program, the new password won't be saved.
+        # We would need a file containing the PASSWORDS dictionary to save it, and open the file in the program.
+        # The objective with this feature is to test the argv's logic.
 else:
     account = sys.argv[1] # sys.argv[0] is always a string containing the program's filename.
     if account in PASSWORDS:
