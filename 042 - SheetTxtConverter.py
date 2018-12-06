@@ -42,7 +42,7 @@ try:
         print('First argument should be "TS" (text to sheet) or "ST" (sheet to text).')
 
 # Displaying "how to use" message:
-except (FileNotFoundError, PermissionError, NotADirectoryError, AttributeError, TypeError):
+except (FileNotFoundError, PermissionError, NotADirectoryError, AttributeError, TypeError, IndexError):
     print('Something went wrong. How to use:')
     print('    1st argument should be "ST" if you want sheet to text or "TS" if you want text to sheet.')
     print('    If you choose ST, you should pass a path to a .xlsx file as 2nd argument.')
