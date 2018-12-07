@@ -33,7 +33,9 @@ try:
     # default:.
     else:
         print('You should enter a .xlsx or .csv file path as argument.')
+        sys.exit()
 
 except (IndexError, FileNotFoundError):
     print('Something went wrong. Enter a .csv or .xlsx file absolute path as argument.')
     print('If there are spaces in path, put the whole path between quotes.')
+    sys.exit()
