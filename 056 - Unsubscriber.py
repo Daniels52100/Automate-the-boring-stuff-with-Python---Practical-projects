@@ -1,6 +1,20 @@
-import imapclient, datetime, bs4, pyzmail, re, webbrowser, sys
+import imapclient, datetime, bs4, pyzmail, re, webbrowser, sys, threading
 imapclient._MAXLINE = 10000000
 
+def searchUnsub(end, start):
+        for i in range(start, end, -1):
+        # skipping deleted e-mails:
+                if rawMsgs[i] != {}:
+                        message = pyzmail.PyzMessage.factory(rawMsgs[i][b'BODY[]'])
+                        if message.html_part != None:
+                                html = message.html_part.get_payload().decode(message.html_part.charset)
+                                # Parsing
+                                soup = bs4.BeautifulSoup(html, features="lxml")
+                                for tag in soup.find_all():
+                                # Looking for the word 'unsubscribe' in each tag:
+                                        if regex.search(tag.getText()) != None:
+                                                # opening links with the word 'unsubscribe' in text:
+                                                webbrowser.open(tag.get('href'))
 # Verifying arguments:
 if len(sys.argv != 2):
         print('[Usage]: py.exe Unsubscriber.py <email> <password>')
@@ -23,18 +37,22 @@ imapObj.select_folder('INBOX', readonly=True)
 monthAgo = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime('%d-%b-%Y')
 uids = imapObj.search(['SINCE', monthAgo])
 rawMsgs = imapObj.fetch(uids, ['BODY[]'])
-# Finding unsubscribe button in each email:
-for i in range(1, len(rawMsgs) + 1):
-    # skipping deleted e-mails:
-    if rawMsgs[i] != {}:
-        message = pyzmail.PyzMessage.factory(rawMsgs[i][b'BODY[]'])
-        if message.html_part != None:
-                html = message.html_part.get_payload().decode(message.html_part.charset)
-                # Parsing
-                soup = bs4.BeautifulSoup(html, features="lxml")
-                for tag in soup.find_all():
-                # Looking for the word 'unsubscribe' in each tag:
-                        if regex.search(tag.getText()) != None:
-                                # opening links with the word 'unsubscribe' in text:
-                                webbrowser.open(tag.get('href'))
+# Creating a thread for every 20 emails or less:
+threadStart = len(rawMsgs)
+threadEnd = threadStart - 20
+threadList = []
+while threadEnd != 0:
+        # Preventing index errors:
+        if threadEnd >= 20:
+                threadEnd = threadStart - 20
+                threadStart -= 20        
+        else:
+                threadEnd = 0
+        threadObj = threading.Thread(target=searchUnsub, args=[threadStart, threadEnd])
+        threadObj.start()
+        threadList.append(threadObj)
+                
+for thread in threadList:
+        thread.join()
+
 imapObj.logout()
