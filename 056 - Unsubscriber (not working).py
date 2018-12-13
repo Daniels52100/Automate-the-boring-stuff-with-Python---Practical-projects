@@ -2,10 +2,10 @@ import imapclient, datetime, bs4, pyzmail, re, webbrowser, sys, threading
 imapclient._MAXLINE = 10000000
 
 def searchUnsub(end, start):
-        for i in range(start, end, -1):
+        for i in range(start, end - 1, -1):
         # skipping deleted e-mails:
-                if rawMsgs[i] != {}:
-                        message = pyzmail.PyzMessage.factory(rawMsgs[i][b'BODY[]'])
+                if rawMsgs[uids[i]] != {}:
+                        message = pyzmail.PyzMessage.factory(rawMsgs[uids[i]][b'BODY[]'])
                         if message.html_part != None:
                                 html = message.html_part.get_payload().decode(message.html_part.charset)
                                 # Parsing
@@ -38,16 +38,16 @@ monthAgo = (datetime.datetime.now() - datetime.timedelta(days=30)).strftime('%d-
 uids = imapObj.search(['SINCE', monthAgo])
 rawMsgs = imapObj.fetch(uids, ['BODY[]'])
 # Creating a thread for every 20 emails or less:
-threadStart = len(rawMsgs)
+threadStart = len(uids)
 threadEnd = threadStart - 20
 threadList = []
-while threadEnd != 0:
+while threadEnd != -1:
         # Preventing index errors:
-        if threadEnd >= 20:
+        if threadEnd >= 19:
                 threadEnd = threadStart - 20
                 threadStart -= 20        
         else:
-                threadEnd = 0
+                threadEnd = -1
         threadObj = threading.Thread(target=searchUnsub, args=[threadStart, threadEnd])
         threadObj.start()
         threadList.append(threadObj)
