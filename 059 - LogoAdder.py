@@ -10,7 +10,7 @@ logoIm = Image.open(LOGO_FILENAME).resize((50,50))
 logoWidth, logoHeight = logoIm.size
 os.makedirs('withLogo', exist_ok=True)
 for filename in os.listdir('.'):
-    if not (filename.endswith('.png') or filename.endswith('.jpg')) \
+    if not (filename.endswith('.png') or filename.endswith('.jpg') or filename.endswith('.gif') or filename.endswith('.bmp')) \
     or filename == LOGO_FILENAME:
         continue
     
@@ -28,6 +28,7 @@ for filename in os.listdir('.'):
         im = im.resize((width, height))
 
     print('Adding logo to %s...' % (filename))
+    logoCopy = logoIm.copy()
+    logoCopy.resize(width/8, ((width/8)*logoHeight)/logoWidth)
     im.paste(logoIm, (width - logoWidth, height - logoHeight), logoIm)
     im.save(os.path.join('withLogo', filename))
-
