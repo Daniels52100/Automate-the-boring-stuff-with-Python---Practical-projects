@@ -44,10 +44,10 @@ def execute(command):
         response += "'" + command + "' doesn't have have a keyword ('subprocess' or 'link')."
 
 # This is where you enter the info about both emails and password.
-senderEmail = 'testepythonbiel@gmail.com'
-email = 'testepythonbiel@gmail.com'
-emailPassword = 'automate2018'
-commandPassword = 'lolita'
+senderEmail = 'youremail'
+email = 'your computer email'
+emailPassword = 'yourPW'
+commandPassword = 'password'
 
 # Checking for new emails from you with the password:
 imapObj = imapclient.IMAPClient('imap.gmail.com', ssl=True)
