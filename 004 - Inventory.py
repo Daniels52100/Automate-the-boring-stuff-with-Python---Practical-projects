@@ -19,29 +19,10 @@ def displayLoot(loot):
     """
     i = 0
     if type(loot) == list:
-        while True:
-            print(loot[i], end = '')
-            if i == len(loot) - 1:
-                print('.')
-                break
-            elif i == len(loot) - 2:
-                print(' and ', end = '')
-            else:
-                print(', ', end = '')
-            i += 1
-    if type(loot) == dict:
-        keysList = list(loot.keys())
-        valuesList = list(loot.values())
-        while True:
-            print(str(valuesList[i]) + ' ' + keysList[i] + '(s)', end = '')
-            if i == len(loot) - 1:
-                print('.')
-                break
-            elif i == len(loot) - 2:
-                print(' and ', end = '')
-            else:
-                print(', ', end = '')
-            i += 1
+        print((', ').join(loot[:-1]) + ' and ' + loot[-1] + '.')
+    else:
+        pairs = [' '.join([str(v), k]) for k, v in loot.items()]
+        print(', '.join(pairs[:-1]) + ' and ' + pairs[-1] + '.')
 
 def addListToInv(inventory, items):
     """
@@ -63,12 +44,12 @@ print('Initial inventory:')
 displayInventory(inv)
 
 addDictToInv(inv, dragonLootDict)
-print('Inventory after dictionary loot: ', end = '')
+print('Inventory after dictionary loot: ', end='')
 displayLoot(dragonLootDict)
 displayInventory(inv)
 print()
 
 addListToInv(inv, dragonLootList)
-print('Inventory after list loot: ', end = '')
+print('Inventory after list loot: ', end='')
 displayLoot(dragonLootList)
 displayInventory(inv)
