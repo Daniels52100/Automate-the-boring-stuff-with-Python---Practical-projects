@@ -6,30 +6,23 @@ tableData = [['apples', 'oranges', 'cherries', 'banana'],
 
 def printTable(table):
     # Verifying if the given list is a table:
-    isTable = True
-    for l1 in  range(len(table)):
-        for l2 in range(l1+1, len(table)):
-            # Comparing a list's length to all the ones that come after it in the table.
-            if len(table[l1]) != len(table[l2]):
-                isTable = False
+    width = len(table[0])
+    isTable = all(map(lambda x: len(x) == width, table[1:]))
 
     if(isTable):
         # Obtaining the width for each column in table:
-        colWidth = []         
-        for i in range(len(table)):
-            colWidth.append(0)
-            for element in table[i]:
-                if len(element) > colWidth[i]:
-                    colWidth[i] = len(element)
+        colWidths = []         
+        for column in table:
+            colWidths.append(max([len(w) for w in column]))
 
         # Defining lines' and columns' length:
-        colLength = len(table)
-        lineLength = len(table[0])
+        columns = len(table)
+        lines = len(table[0])
 
         # Printing all elements in table:
-        for line in range(lineLength):
-            for column in range(colLength):
-                print(table[column][line].rjust(colWidth[column]) + ' ', end = '')
+        for line in range(lines):
+            for column in range(columns):
+                print(table[column][line].rjust(colWidths[column]) + ' ', end = '')
             print()
     
     else:
